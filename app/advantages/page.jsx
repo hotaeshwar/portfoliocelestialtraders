@@ -3,6 +3,6 @@
 import React from "react";
 import PortfolioView from "@/components/PortfolioView";
 
-export default function HomePage() {
-  return <PortfolioView initialSection="home" />;
+export default function AdvantagesRoute() {
+  return <PortfolioView initialSection="advantages" />;
 }

@@ -6,9 +6,9 @@ import { Menu, X, Globe, ArrowUpRight } from "lucide-react";
 import Logo from "./Logo";
 import { useLanguage } from "@/context/LanguageContext";
 
-export default function Navbar() {
+export default function Navbar({ initialSection = "home" }) {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState("home");
+  const [activeSection, setActiveSection] = useState(initialSection);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { language, toggleLanguage, t, isRTL } = useLanguage();
 
@@ -22,7 +22,7 @@ export default function Navbar() {
   ];
 
   const handleNavClick = (e, id) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
     setActiveSection(id);
     setMobileMenuOpen(false);
 
@@ -37,8 +37,8 @@ export default function Navbar() {
       }
     }
 
-    if (typeof window !== "undefined" && window.history.replaceState) {
-      window.history.replaceState(null, "", window.location.pathname);
+    if (typeof window !== "undefined" && window.history.pushState) {
+      window.history.pushState(null, "", "/" + id);
     }
   };
 
@@ -55,6 +55,9 @@ export default function Navbar() {
           const top = el.offsetTop;
           if (scrollPosition >= top) {
             setActiveSection(sectionIds[i]);
+            if (typeof window !== "undefined" && window.history.replaceState) {
+              window.history.replaceState(null, "", "/" + sectionIds[i]);
+            }
             break;
           }
         }
