@@ -28,6 +28,9 @@ export default function Navbar({ initialSection = "home" }) {
 
     if (id === "home") {
       window.scrollTo({ top: 0, behavior: "smooth" });
+      if (typeof window !== "undefined" && window.history.pushState) {
+        window.history.pushState(null, "", "/");
+      }
     } else {
       const element = document.getElementById(id);
       if (element) {
@@ -35,10 +38,9 @@ export default function Navbar({ initialSection = "home" }) {
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: "smooth" });
       }
-    }
-
-    if (typeof window !== "undefined" && window.history.pushState) {
-      window.history.pushState(null, "", "/" + id);
+      if (typeof window !== "undefined" && window.history.pushState) {
+        window.history.pushState(null, "", "/" + id);
+      }
     }
   };
 
@@ -56,7 +58,10 @@ export default function Navbar({ initialSection = "home" }) {
           if (scrollPosition >= top) {
             setActiveSection(sectionIds[i]);
             if (typeof window !== "undefined" && window.history.replaceState) {
-              window.history.replaceState(null, "", "/" + sectionIds[i]);
+              const newPath = sectionIds[i] === "home" ? "/" : "/" + sectionIds[i];
+              if (window.location.pathname !== newPath) {
+                window.history.replaceState(null, "", newPath);
+              }
             }
             break;
           }

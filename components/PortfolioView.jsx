@@ -12,12 +12,16 @@ import Footer from "@/components/Footer";
 
 export default function PortfolioView({ initialSection = "home" }) {
   useEffect(() => {
-    // Check initial section or pathname
     let targetSection = initialSection;
     if (typeof window !== "undefined") {
       const path = window.location.pathname.replace(/^\/+|\/+$/g, "");
-      if (path && ["home", "about", "advantages", "accounts", "partnerships", "trust-contact"].includes(path)) {
+      if (path && ["about", "advantages", "accounts", "partnerships", "trust-contact"].includes(path)) {
         targetSection = path;
+      } else if (path === "home" || !path) {
+        targetSection = "home";
+        if (window.history.replaceState) {
+          window.history.replaceState(null, "", "/");
+        }
       }
     }
 
@@ -31,7 +35,7 @@ export default function PortfolioView({ initialSection = "home" }) {
         }
       }, 100);
       return () => clearTimeout(timer);
-    } else if (targetSection === "home") {
+    } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   }, [initialSection]);
