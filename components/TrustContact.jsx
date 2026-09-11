@@ -122,7 +122,7 @@ export default function TrustContact() {
           </div>
         </motion.div>
 
-        {/* Contact Channels: Phone, Website, Email (Fixed icon hover visibility & Staggered Reveal) */}
+        {/* Contact Channels: Phone, Website, Email */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -157,21 +157,20 @@ export default function TrustContact() {
           ))}
         </motion.div>
 
-        {/* Physical Address Cards & Company Certificate Showcase */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12">
+        {/* Physical Address Cards (from Left) & Company Certificate (from Right) Meeting in the Center */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-12 overflow-hidden">
           
-          {/* Registered & Operational Addresses (6 cols) */}
+          {/* Registered & Operational Addresses sliding from LEFT */}
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.05 }}
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 space-y-6"
           >
             {addresses.map((item, idx) => (
-              <motion.div
+              <div
                 key={idx}
-                variants={itemVariants}
                 className="group p-6 sm:p-8 rounded-3xl bg-[#0A1B2D]/85 border border-white/10 hover:border-[#5EC7E8]/40 transition-all shadow-lg"
               >
                 <div className="flex items-center gap-3 mb-4">
@@ -185,16 +184,16 @@ export default function TrustContact() {
                 <p className="text-sm sm:text-base text-[#D3DCE5] font-medium leading-[1.8] font-body">
                   {item.value}
                 </p>
-              </motion.div>
+              </div>
             ))}
           </motion.div>
 
-          {/* Official Registration Certificate (6 cols) */}
+          {/* Official Registration Certificate sliding from RIGHT */}
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 flex flex-col items-center"
           >
             <div className="relative w-full rounded-2xl overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.8),0_0_50px_rgba(94,199,232,0.18)] bg-white">

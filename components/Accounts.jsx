@@ -90,7 +90,6 @@ export default function Accounts() {
           {tiers.map((tier, idx) => {
             const isSpecial = idx === 1;
             const isHovered = hoveredIdx === idx;
-            const isOtherHovered = hoveredIdx !== null && hoveredIdx !== idx;
 
             return (
               <motion.div key={idx} variants={itemVariants} className="relative">
@@ -163,17 +162,18 @@ export default function Accounts() {
           })}
         </motion.div>
 
-        {/* AI Multi-Screen Terminal Visual + MARKET ACCESS Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.05 }}
-          transition={{ duration: 0.6 }}
-          className="rounded-3xl bg-[#0A1B2D]/90 border border-white/10 overflow-hidden shadow-2xl"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-12 items-center">
-            {/* AI Generated Terminal Visual (5 cols) */}
-            <div className="lg:col-span-5 relative aspect-[16/10] lg:aspect-auto lg:h-full min-h-[240px] overflow-hidden">
+        {/* AI Multi-Screen Terminal Visual (from Left) + MARKET ACCESS Copy (from Right) Meeting in the Center */}
+        <div className="rounded-3xl bg-[#0A1B2D]/90 border border-white/10 overflow-hidden shadow-2xl">
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-center overflow-hidden">
+            
+            {/* AI Generated Terminal Visual sliding from LEFT */}
+            <motion.div
+              initial={{ opacity: 0, x: -60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:col-span-5 relative aspect-[16/10] lg:aspect-auto lg:h-full min-h-[240px] overflow-hidden"
+            >
               <Image
                 src="/images/accounts-terminal.jpg"
                 alt="Institutional Multi-Asset Trading Terminal"
@@ -182,10 +182,16 @@ export default function Accounts() {
                 className="object-cover object-center"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#0A1B2D]/40 to-[#0A1B2D]" />
-            </div>
+            </motion.div>
 
-            {/* Approved Market Access Copy (7 cols) */}
-            <div className="lg:col-span-7 p-6 sm:p-8 lg:p-10 space-y-4">
+            {/* Approved Market Access Copy sliding from RIGHT */}
+            <motion.div
+              initial={{ opacity: 0, x: 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, amount: 0.1 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:col-span-7 p-6 sm:p-8 lg:p-10 space-y-4"
+            >
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-xl bg-[#10263D] border border-white/10 text-[#5EC7E8]">
                   <Globe className="w-5 h-5" />
@@ -197,9 +203,9 @@ export default function Accounts() {
               <p className="text-sm sm:text-base lg:text-lg text-[#D3DCE5] font-medium leading-[1.8] font-body">
                 {t.accounts.marketAccess.text}
               </p>
-            </div>
+            </motion.div>
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </section>

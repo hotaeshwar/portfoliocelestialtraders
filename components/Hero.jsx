@@ -18,29 +18,9 @@ export default function Hero() {
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
       window.scrollTo({ top: y, behavior: "smooth" });
     }
-    if (typeof window !== "undefined" && window.history.replaceState) {
-      window.history.replaceState(null, "", window.location.pathname);
+    if (typeof window !== "undefined" && window.history.pushState) {
+      window.history.pushState(null, "", "/" + id);
     }
-  };
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.05,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-    },
   };
 
   return (
@@ -53,41 +33,36 @@ export default function Hero() {
       <div className="pointer-events-none absolute bottom-10 right-10 w-[450px] h-[400px] bg-[#5EC7E8]/10 rounded-full blur-[140px]" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
-          className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center"
-        >
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center overflow-hidden">
           
-          {/* LEFT: Cover content */}
-          <div className="lg:col-span-7 flex flex-col items-start text-left rtl:text-right">
-            
+          {/* LEFT: Text & Headings sliding in smoothly from LEFT */}
+          <motion.div
+            initial={{ opacity: 0, x: -70 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 flex flex-col items-start text-left rtl:text-right"
+          >
             {/* Category Badge */}
-            <motion.div
-              variants={itemVariants}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#10263D]/90 border border-[#5EC7E8]/40 mb-6 shadow-md backdrop-blur-md"
-            >
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#10263D]/90 border border-[#5EC7E8]/40 mb-6 shadow-md backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-[#5EC7E8]" />
               <span className="text-[11px] sm:text-xs font-bold tracking-[0.2em] text-[#A8E4F4] uppercase font-mono">
                 {t.hero.subtitle} • {t.hero.year}
               </span>
-            </motion.div>
+            </div>
 
             {/* Stable, Majestic Title */}
-            <motion.h1
-              variants={itemVariants}
+            <h1
               className="font-heading font-semibold text-[#F7FAFC] leading-[1.05] tracking-tight mb-4"
               style={{
                 fontSize: "clamp(2.4rem, 5.2vw, 4.8rem)",
               }}
             >
               {t.hero.title}
-            </motion.h1>
+            </h1>
 
-            {/* Tagline with Controlled Typewriter Effect & Fixed Safe Min-Height */}
-            <motion.div variants={itemVariants} className="min-h-[56px] sm:min-h-[64px] flex items-center mb-8">
+            {/* Tagline with Controlled Typewriter Effect */}
+            <div className="min-h-[56px] sm:min-h-[64px] flex items-center mb-8">
               <TypewriterHeading
                 text={t.hero.tagline}
                 tag="p"
@@ -96,13 +71,10 @@ export default function Hero() {
                 deletingSpeed={30}
                 pauseTime={3000}
               />
-            </motion.div>
+            </div>
 
-            {/* Action Buttons with Clean Scroll Navigation */}
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-wrap items-center gap-3.5 w-full sm:w-auto"
-            >
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3.5 w-full sm:w-auto">
               <MagneticButton
                 onClick={() => scrollToSection("about")}
                 variant="primary"
@@ -119,15 +91,18 @@ export default function Hero() {
               >
                 {t.hero.btnContact}
               </MagneticButton>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
-          {/* RIGHT: AI Generated 3D Holographic Global Market Visual with Orbiting Badges */}
-          <div className="lg:col-span-5 flex items-center justify-center relative">
-            <motion.div
-              variants={itemVariants}
-              className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[440px] lg:h-[440px] flex items-center justify-center select-none"
-            >
+          {/* RIGHT: 3D Holographic Globe sliding in smoothly from RIGHT */}
+          <motion.div
+            initial={{ opacity: 0, x: 70 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-5 flex items-center justify-center relative"
+          >
+            <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[440px] lg:h-[440px] flex items-center justify-center select-none">
               {/* Outer Glow */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#5EC7E8]/25 via-[#4287C5]/15 to-transparent blur-3xl animate-pulse-subtle" />
 
@@ -146,50 +121,55 @@ export default function Hero() {
 
               {/* Orbiting Badges */}
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
+                initial={{ opacity: 0, scale: 0.7 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.35, duration: 0.5 }}
                 className="absolute top-4 left-6 px-3.5 py-1.5 rounded-full bg-[#0A1B2D]/95 border border-[#5EC7E8]/50 text-xs font-mono font-bold text-[#A8E4F4] shadow-[0_0_20px_rgba(94,199,232,0.35)] backdrop-blur-md"
               >
                 FOREX
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
+                initial={{ opacity: 0, scale: 0.7 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.45, duration: 0.5 }}
                 className="absolute top-1/3 -right-2 sm:-right-4 px-3.5 py-1.5 rounded-full bg-[#0A1B2D]/95 border border-[#4287C5]/70 text-xs font-mono font-bold text-[#F7FAFC] shadow-lg backdrop-blur-md"
               >
                 CFD
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
+                initial={{ opacity: 0, scale: 0.7 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.55, duration: 0.5 }}
                 className="absolute top-1/2 -left-3 sm:-left-5 px-3.5 py-1.5 rounded-full bg-[#0A1B2D]/95 border border-[#4287C5]/70 text-xs font-mono font-bold text-[#A8E4F4] shadow-lg backdrop-blur-md"
               >
                 MT5
               </motion.div>
 
               <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.6, duration: 0.5 }}
+                initial={{ opacity: 0, scale: 0.7 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.65, duration: 0.5 }}
                 className="absolute bottom-4 left-10 px-3.5 py-1.5 rounded-full bg-[#0A1B2D]/95 border border-[#5EC7E8]/50 text-xs font-mono font-bold text-[#A8E4F4] shadow-[0_0_20px_rgba(94,199,232,0.35)] backdrop-blur-md"
               >
                 EQUITIES
               </motion.div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
-        </motion.div>
+        </div>
 
         {/* Scroll Indicator */}
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.6, duration: 0.5 }}
           className="mt-12 flex justify-center"
         >
           <button

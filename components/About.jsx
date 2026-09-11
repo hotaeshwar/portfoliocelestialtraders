@@ -28,11 +28,11 @@ export default function About() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 22 },
+    hidden: { opacity: 0, y: 24 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
@@ -71,15 +71,15 @@ export default function About() {
           </div>
         </div>
 
-        {/* AI Generated Institutional Visual + Main Copy Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center mb-12 sm:mb-16">
+        {/* AI Generated Institutional Visual (from Left) + Main Copy Card (from Right) Meeting in the Center */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center mb-12 sm:mb-16 overflow-hidden">
           
-          {/* AI Generated Institutional Showcase Image (6 cols) */}
+          {/* AI Generated Institutional Showcase Image sliding from LEFT */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 relative group rounded-3xl overflow-hidden border border-[#5EC7E8]/30 shadow-2xl min-h-[280px] sm:min-h-[340px]"
           >
             <div className="relative aspect-[16/10] w-full overflow-hidden">
@@ -95,12 +95,12 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Main Approved Body Text Card (6 cols) */}
+          {/* Main Approved Body Text Card sliding from RIGHT */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-6 p-6 sm:p-8 lg:p-10 rounded-3xl bg-gradient-to-b from-[#10263D]/90 to-[#0A1B2D]/90 border border-white/10 shadow-xl backdrop-blur-md"
           >
             <p className="text-base sm:text-lg lg:text-xl text-[#F7FAFC] font-medium leading-[1.8]">

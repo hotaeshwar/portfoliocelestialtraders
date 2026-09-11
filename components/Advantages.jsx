@@ -31,7 +31,7 @@ export default function Advantages() {
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
+    hidden: { opacity: 0, y: 18 },
     visible: {
       opacity: 1,
       y: 0,
@@ -83,15 +83,15 @@ export default function Advantages() {
           </motion.p>
         </div>
 
-        {/* AI High-Tech Network Infrastructure Banner + Stats Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-12 sm:mb-16">
+        {/* Meeting from Left & Right: AI Datacenter Visual (from Left) + Stats Grid (from Right) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-12 sm:mb-16 overflow-hidden">
           
-          {/* AI Generated High-Speed Datacenter Visual (5 cols) */}
+          {/* AI Generated High-Speed Datacenter Visual sliding from LEFT */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{ duration: 0.6 }}
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 relative group rounded-3xl overflow-hidden border border-[#5EC7E8]/30 shadow-2xl min-h-[280px] lg:min-h-[auto]"
           >
             <Image
@@ -104,12 +104,12 @@ export default function Advantages() {
             <div className="absolute inset-0 bg-gradient-to-t from-[#061321] via-[#061321]/30 to-transparent" />
           </motion.div>
 
-          {/* 6 Key Stat Cards (7 cols) - Smooth Staggered Reveals */}
+          {/* 6 Key Stat Cards (7 cols) sliding from RIGHT */}
           <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.05 }}
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6"
           >
             {t.advantages.stats.map((stat, idx) => (
